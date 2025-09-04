@@ -1,6 +1,7 @@
 package br.com.gustavobarez.Itau_Tech_Challenge.Operation;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +61,40 @@ public class OperationService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return CompletableFuture.completedFuture(totalBrokerageFee);
+    }
+
+    public Map<Asset, BigDecimal> calculateAssetWeightedAverage(Long userId) {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID cannot be null");
+        }
+        List<Operation> operations = repository.findByUserIdAndOperationType(userId, "BUY");
+
+        if (operations == null || operations.isEmpty()) {
+            throw new IllegalArgumentException("User ID cannot be null");
+        }
+
+        var assetWeightedAverage = operations.stream()
+                .collect(Collectors.groupingBy(
+                        Operation::getAsset,
+                        Collectors.collectingAndThen(
+                                Collectors.toList(),
+                                ops -> {
+                                    if (ops.isEmpty())
+                                        return BigDecimal.ZERO;
+
+                                    BigDecimal totalValue = ops.stream()
+                                            .map(op -> op.getUnitPrice().multiply(BigDecimal.valueOf(op.getQuantity())))
+                                            .reduce(BigDecimal.ZERO, BigDecimal::add);
+                                    Long totalQuantity = ops.stream()
+                                            .mapToLong(Operation::getQuantity)
+                                            .sum();
+
+                                    return totalQuantity > 0
+                                            ? totalValue.divide(BigDecimal.valueOf(totalQuantity), 2,
+                                                    RoundingMode.HALF_UP)
+                                            : BigDecimal.ZERO;
+                                })));
+        return assetWeightedAverage;
     }
 
 }
