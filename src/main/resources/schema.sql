@@ -13,7 +13,7 @@ CREATE TABLE
 CREATE TABLE
     assets (
         id BIGINT AUTO_INCREMENT PRIMARY KEY,
-        ticker VARCHAR(10) NOT NULL UNIQUE,
+        code VARCHAR(10) NOT NULL UNIQUE,
         name VARCHAR(255) NOT NULL
     );
 
