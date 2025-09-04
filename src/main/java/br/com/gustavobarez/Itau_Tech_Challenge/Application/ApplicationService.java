@@ -31,4 +31,8 @@ public class ApplicationService {
                 return operationService.calculateTotalBrokerageFee(userId);
         }
 
+        public CompletableFuture<Map<Asset, Position>> positionPerAsset(Long userId) {
+                return positionService.getPositionsPerAsset(userId);
+        }
+        
 }

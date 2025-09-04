@@ -121,6 +121,31 @@ public class AppRunner implements CommandLineRunner {
         }
     }
 
+    private void handlePositionPerAsset(Scanner scanner) {
+        logger.info("--> [Teste 3] Consultando Posição por Ativo...");
+        Long userId = askForUserId(scanner);
+        if (userId == null)
+            return;
+
+        try {
+            CompletableFuture<Map<Asset, Position>> future = applicationService.positionPerAsset(userId);
+            Map<Asset, Position> result = future.get();
+            if (result.isEmpty()) {
+                logger.info("Resultado: Nenhuma posição encontrada para este usuário.");
+            } else {
+                result.forEach((asset, position) -> logger.info(
+                        "Resultado: Ativo: {} | Quantidade: {} | Preço Médio: R$ {} | P&L: R$ {}",
+                        asset.getCode(), position.getQuantity(), position.getAveragePrice(),
+                        position.getProfitAndLoss()));
+            }
+        } catch (ExecutionException e) {
+            logger.error("ERRO ao buscar posições: {}", e.getCause().getMessage());
+        } catch (InterruptedException e) {
+            logger.error("A operação foi interrompida.", e);
+            Thread.currentThread().interrupt();
+        }
+    }
+
     private void promptEnterKey(Scanner scanner) {
         System.out.println("\nPressione \"ENTER\" para continuar...");
         scanner.nextLine();
