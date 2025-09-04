@@ -34,5 +34,9 @@ public class ApplicationService {
         public CompletableFuture<Map<Asset, Position>> positionPerAsset(Long userId) {
                 return positionService.getPositionsPerAsset(userId);
         }
+
+        public CompletableFuture<GlobalPositionDTO> globalPosition(Long userId) {
+                return positionService.calculateGlobalPosition(userId);
+        }
         
 }

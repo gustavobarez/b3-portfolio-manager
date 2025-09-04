@@ -146,6 +146,31 @@ public class AppRunner implements CommandLineRunner {
         }
     }
 
+    private void handleGlobalPosition(Scanner scanner) {
+        logger.info("--> [Teste 4] Calculando Posição Global...");
+        Long userId = askForUserId(scanner);
+        if (userId == null)
+            return;
+
+        try {
+            CompletableFuture<GlobalPositionDTO> future = applicationService.globalPosition(userId);
+            GlobalPositionDTO result = future.get();
+
+            logger.info("Resultado: Posição Global para o Usuário ID {}", result.getUserId());
+            logger.info(" -> Total de Ativos no Portfólio: {}", result.getTotalPositions());
+            logger.info(" -> Quantidade Total de todos os Ativos: {}", result.getTotalQuantity());
+            logger.info(" -> Valor Total Investido: R$ {}", result.getTotalInvested());
+            logger.info(" -> Lucro/Prejuízo Total (P&L): R$ {}", result.getTotalProfitAndLoss());
+            logger.info(" -> Status Atual: {}", result.getPositionStatus());
+
+        } catch (ExecutionException e) {
+            logger.error("ERRO ao calcular a posição global: {}", e.getCause().getMessage());
+        } catch (InterruptedException e) {
+            logger.error("A operação foi interrompida.", e);
+            Thread.currentThread().interrupt();
+        }
+    }
+
     private void promptEnterKey(Scanner scanner) {
         System.out.println("\nPressione \"ENTER\" para continuar...");
         scanner.nextLine();
