@@ -27,4 +27,8 @@ public class ApplicationService {
                 return operationService.calculateInvestmentTotalPerAsset(userId);
         }
 
+        public CompletableFuture<BigDecimal> totalBrokerageFee(Long userId) {
+                return operationService.calculateTotalBrokerageFee(userId);
+        }
+
 }

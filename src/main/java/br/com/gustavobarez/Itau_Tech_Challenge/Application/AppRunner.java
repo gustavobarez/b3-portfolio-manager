@@ -103,6 +103,24 @@ public class AppRunner implements CommandLineRunner {
         }
     }
 
+    private void handleBrokerageFee(Scanner scanner) {
+        logger.info("--> [Teste 2] Calculando Taxa Total de Corretagem...");
+        Long userId = askForUserId(scanner);
+        if (userId == null)
+            return;
+
+        try {
+            CompletableFuture<BigDecimal> future = applicationService.totalBrokerageFee(userId);
+            BigDecimal result = future.get();
+            logger.info("Resultado: Taxa total de corretagem paga pelo usuário: R$ {}", result);
+        } catch (ExecutionException e) {
+            logger.error("ERRO ao calcular a corretagem: {}", e.getCause().getMessage());
+        } catch (InterruptedException e) {
+            logger.error("A operação foi interrompida.", e);
+            Thread.currentThread().interrupt();
+        }
+    }
+
     private void promptEnterKey(Scanner scanner) {
         System.out.println("\nPressione \"ENTER\" para continuar...");
         scanner.nextLine();
