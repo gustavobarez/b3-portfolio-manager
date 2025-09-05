@@ -29,13 +29,17 @@ public class Quotation {
     @Column(name = "date_time")
     private LocalDateTime dateTime;
 
+    @Column(name = "source", nullable = false)
+    private String source;
+
     public Quotation() {
     }
 
-    public Quotation(Asset asset, BigDecimal unitPrice, LocalDateTime dateTime) {
+    public Quotation(Asset asset, BigDecimal unitPrice, LocalDateTime dateTime, String source) {
         this.asset = asset;
         this.unitPrice = unitPrice;
         this.dateTime = dateTime;
+        this.source = source;
     }
 
     public Long getId() {
