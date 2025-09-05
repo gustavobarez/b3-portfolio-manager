@@ -1,4 +1,4 @@
-package br.com.gustavobarez.Itau.Tech.Challenge;
+package br.com.gustavobarez.Itau_Tech_Challenge;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
