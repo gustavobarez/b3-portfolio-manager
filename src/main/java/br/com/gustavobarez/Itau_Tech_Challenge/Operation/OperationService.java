@@ -70,7 +70,7 @@ public class OperationService {
         List<Operation> operations = repository.findByUserIdAndOperationType(userId, "BUY");
 
         if (operations == null || operations.isEmpty()) {
-            throw new IllegalArgumentException("User ID cannot be null");
+            return Collections.emptyMap();
         }
 
         var assetWeightedAverage = operations.stream()
