@@ -1,6 +1,7 @@
 package br.com.gustavobarez.Itau_Tech_Challenge.Operation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -67,6 +68,15 @@ public class CalculateAssetWeightedAverageTest {
 
         assertNotNull(result);
         assertEquals(1, result.size());
+        
+        // TESTE MUTANTE - verifica o valor calculado
+        assertEquals(0, new BigDecimal("10.00").compareTo(result.get(asset1)));
+        
+        // TESTE MUTANTE - verifica se o asset correto está no resultado
+        assertTrue(result.containsKey(asset1));
+        
+        // TESTE MUTANTE - verifica se não tem outros assets
+        assertFalse(result.containsKey(asset2));
     }
 
     @Test
