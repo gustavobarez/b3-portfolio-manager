@@ -56,7 +56,11 @@ CREATE TABLE
         FOREIGN KEY (asset_id) REFERENCES assets (id)
     );
 
+-- index necessario para fazer a consulta otimizada
+
 CREATE INDEX idx_operations_user_asset_time ON operations (user_id, asset_id, date_time);
+
+-- consulta todas as operações de um usuário em determinado ativo nos últimos 30 dias.
 
 SELECT
     *
@@ -68,6 +72,8 @@ WHERE
     AND date_time >= DATE_SUB (NOW (), INTERVAL 30 DAY)
 ORDER BY
     date_time DESC;
+
+-- estrutura para atualizar posições com base nas cotações
 
 DELIMITER $$
 CREATE TRIGGER tg_update_pnl_position
@@ -84,11 +90,12 @@ END$$
 
 DELIMITER ;
 
+-- create mock data to test via terminal and kafka consume
+
 INSERT INTO users (id, name, email, brokerage_porcentage) VALUES
 (1, 'Alice Johnson', 'alice.j@example.com', 0.00500),
 (2, 'Bob Williams', 'bob.w@example.com', 0.01000);
 
--- Inserindo Ativos Financeiros
 INSERT INTO assets (id, code, name) VALUES
 (101, 'ITUB4', 'ITAU UNIBANCO PN'),
 (102, 'PETR4', 'PETROBRAS PN'),
