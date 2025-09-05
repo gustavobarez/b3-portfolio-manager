@@ -31,14 +31,17 @@ CREATE TABLE
         FOREIGN KEY (asset_id) REFERENCES assets (id)
     );
 
-CREATE TABLE
-    quotations (
-        id BIGINT AUTO_INCREMENT PRIMARY KEY,
-        asset_id BIGINT NOT NULL,
-        unit_price DECIMAL(19, 4) NOT NULL,
-        date_time TIMESTAMP NOT NULL,
-        FOREIGN KEY (asset_id) REFERENCES assets (id)
-    );
+CREATE TABLE quotations (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    asset_id BIGINT NOT NULL,
+    unit_price DECIMAL(19, 4) NOT NULL,
+    date_time TIMESTAMP NOT NULL,
+    source VARCHAR(50),
+    
+    FOREIGN KEY (asset_id) REFERENCES assets (id),
+    
+    UNIQUE KEY uk_quotation_idempotent (asset_id, date_time, source)
+);
 
 CREATE TABLE
     positions (
