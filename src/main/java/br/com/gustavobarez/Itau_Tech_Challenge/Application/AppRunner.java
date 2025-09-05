@@ -45,6 +45,9 @@ public class AppRunner implements CommandLineRunner {
                 case "4":
                     handleGlobalPosition(scanner);
                     break;
+                case "5":
+                    handleAssetWeightedAverage(scanner);
+                    break;
                 case "0":
                     logger.info("Encerrando a aplicação...");
                     scanner.close();
@@ -65,6 +68,7 @@ public class AppRunner implements CommandLineRunner {
         System.out.println("  2 - Calcular Taxa Total de Corretagem");
         System.out.println("  3 - Consultar Posição por Ativo");
         System.out.println("  4 - Consultar Posição Global Consolidada");
+        System.out.println("  5 - Consultar Média Ponderada dos Ativos");
         System.out.println("  0 - Sair");
         System.out.print("\n  Digite sua escolha: ");
     }
@@ -168,6 +172,25 @@ public class AppRunner implements CommandLineRunner {
         } catch (InterruptedException e) {
             logger.error("A operação foi interrompida.", e);
             Thread.currentThread().interrupt();
+        }
+    }
+
+    private void handleAssetWeightedAverage(Scanner scanner) {
+        logger.info("--> [Teste 5] Calculando média ponderada dos ativos");
+        Long userId = askForUserId(scanner);
+        if (userId == null)
+            return;
+
+        try {
+            var result = applicationService.assetWeightedAverage(userId);
+            if (result.isEmpty()) {
+                logger.info("Resultado: Nenhuma operação de 'COMPRA' encontrada para este usuário.");
+            } else {
+                result.forEach((asset, total) -> logger.info("Resultado: Ativo: {} ({}) - Média Ponderada: R$ {}",
+                        asset.getCode(), asset.getName(), total));
+            }
+        } catch (Exception e) {
+            logger.error("ERRO ao calcular a média: {}", e.getCause().getMessage());
         }
     }
 

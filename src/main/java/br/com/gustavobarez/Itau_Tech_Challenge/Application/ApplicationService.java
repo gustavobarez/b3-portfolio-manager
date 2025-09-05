@@ -38,5 +38,9 @@ public class ApplicationService {
         public CompletableFuture<GlobalPositionDTO> globalPosition(Long userId) {
                 return positionService.calculateGlobalPosition(userId);
         }
+
+        public Map<Asset, BigDecimal> assetWeightedAverage(Long userId) {
+                return operationService.calculateAssetWeightedAverage(userId);
+        }
         
 }
