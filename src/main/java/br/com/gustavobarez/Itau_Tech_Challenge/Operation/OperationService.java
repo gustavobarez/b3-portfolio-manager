@@ -97,4 +97,33 @@ public class OperationService {
         return assetWeightedAverage;
     }
 
+    public Map<Asset, BigDecimal> calculateAveragePrice(Long userId) {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID cannot be null");
+        }
+
+        List<Operation> operations = repository.findByUserIdAndOperationType(userId, "BUY");
+
+        if (operations == null || operations.isEmpty()) {
+            Collections.emptyList();
+        }
+
+        return operations.stream()
+                .collect(Collectors.groupingBy(
+                        Operation::getAsset,
+                        Collectors.collectingAndThen(
+                                Collectors.toList(),
+                                ops -> {
+                                    if (ops.isEmpty())
+                                        return BigDecimal.ZERO;
+                                    BigDecimal totalValue = ops.stream()
+                                            .map(op -> op.getUnitPrice().multiply(BigDecimal.valueOf(op.getQuantity())))
+                                            .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+                                    Long totalQuantity = ops.stream()
+                                            .mapToLong(Operation::getQuantity)
+                                            .sum();
+                                    return totalValue.divide(BigDecimal.valueOf(totalQuantity), RoundingMode.HALF_UP);
+                                })));
+    }
 }
