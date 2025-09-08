@@ -23,16 +23,16 @@ public class ApplicationService {
                 this.positionService = positionService;
         }
 
-        public CompletableFuture<Map<Asset, BigDecimal>> investimentTotalPerAsset(Long userId) {
-                return operationService.calculateInvestmentTotalPerAsset(userId);
+        public CompletableFuture<Map<Asset, BigDecimal>> investimentTotalByAsset(Long userId) {
+                return operationService.calculateInvestmentTotalByAsset(userId);
         }
 
         public CompletableFuture<BigDecimal> totalBrokerageFee(Long userId) {
                 return operationService.calculateTotalBrokerageFee(userId);
         }
 
-        public CompletableFuture<Map<Asset, Position>> positionPerAsset(Long userId) {
-                return positionService.getPositionsPerAsset(userId);
+        public CompletableFuture<Map<Asset, Position>> positionByAsset(Long userId) {
+                return positionService.getPositionsByAsset(userId);
         }
 
         public CompletableFuture<GlobalPositionDTO> globalPosition(Long userId) {

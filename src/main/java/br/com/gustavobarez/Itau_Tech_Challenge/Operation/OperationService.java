@@ -23,7 +23,7 @@ public class OperationService {
     }
 
     @Async
-    public CompletableFuture<Map<Asset, BigDecimal>> calculateInvestmentTotalPerAsset(Long userId) {
+    public CompletableFuture<Map<Asset, BigDecimal>> calculateInvestmentTotalByAsset(Long userId) {
         if (userId == null) {
             return CompletableFuture.failedFuture(new IllegalArgumentException("User ID cannot be null."));
         }
@@ -131,10 +131,18 @@ public class OperationService {
         List<Operation> operations = repository.findAll();
 
         var totalBrokerageFee = operations.stream()
-        .map(op -> op.getBrokerageFee())
-        .reduce(BigDecimal.ZERO, BigDecimal::add);
-        
+                .map(op -> op.getBrokerageFee())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         return totalBrokerageFee;
+    }
+
+    public List<Map<String, Object>> getTop10ClientsByPosition() {
+        return repository.findTop10ClientsByPosition();
+    }
+
+    public List<Map<String, Object>> getTop10ClientsByBrokerage() {
+        return repository.findTop10ClientsByBrokerage();
     }
 
 }

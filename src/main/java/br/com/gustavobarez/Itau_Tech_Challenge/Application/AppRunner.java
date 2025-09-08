@@ -90,7 +90,7 @@ public class AppRunner implements CommandLineRunner {
             return;
 
         try {
-            CompletableFuture<Map<Asset, BigDecimal>> future = applicationService.investimentTotalPerAsset(userId);
+            CompletableFuture<Map<Asset, BigDecimal>> future = applicationService.investimentTotalByAsset(userId);
             Map<Asset, BigDecimal> result = future.get();
 
             if (result.isEmpty()) {
@@ -132,7 +132,7 @@ public class AppRunner implements CommandLineRunner {
             return;
 
         try {
-            CompletableFuture<Map<Asset, Position>> future = applicationService.positionPerAsset(userId);
+            CompletableFuture<Map<Asset, Position>> future = applicationService.positionByAsset(userId);
             Map<Asset, Position> result = future.get();
             if (result.isEmpty()) {
                 logger.info("Resultado: Nenhuma posição encontrada para este usuário.");

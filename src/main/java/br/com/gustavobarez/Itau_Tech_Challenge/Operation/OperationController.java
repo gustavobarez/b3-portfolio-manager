@@ -1,6 +1,7 @@
 package br.com.gustavobarez.Itau_Tech_Challenge.Operation;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,20 @@ public class OperationController {
     public ResponseEntity<ApiResponse<BigDecimal>> getTotalBrokerageFee() {
         var totalBrokerageFee = service.calculateTotalBrokerageFee();
         var response = new ApiResponse<>(totalBrokerageFee, "get-total-brokerage-fee");
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/topClientsByPosition")
+    public ResponseEntity<ApiResponse<List<Map<String, Object>>>> getTopClientsByPosition() {
+        var top = service.getTop10ClientsByPosition();
+        var response = new ApiResponse<>(top, "get-top-10-clients-by-position");
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/topClientsByBrokerage")
+    public ResponseEntity<ApiResponse<List<Map<String, Object>>>> getTopClientsByBrokerage() {
+        var top = service.getTop10ClientsByBrokerage();
+        var response = new ApiResponse<>(top, "get-top-10-clients-by-brokerage");
         return ResponseEntity.ok(response);
     }
 

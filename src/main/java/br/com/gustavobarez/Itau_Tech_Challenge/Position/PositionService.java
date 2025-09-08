@@ -11,18 +11,21 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import br.com.gustavobarez.Itau_Tech_Challenge.Asset.Asset;
+import br.com.gustavobarez.Itau_Tech_Challenge.Operation.OperationService;
 
 @Service
 public class PositionService {
 
         PositionRepository repository;
+        OperationService operationService;
 
-        public PositionService(PositionRepository repository) {
+        public PositionService(PositionRepository repository, OperationService operationService) {
                 this.repository = repository;
+                this.operationService = operationService;
         }
 
         @Async
-        public CompletableFuture<Map<Asset, Position>> getPositionsPerAsset(Long userId) {
+        public CompletableFuture<Map<Asset, Position>> getPositionsByAsset(Long userId) {
                 if (userId == null) {
                         return CompletableFuture.failedFuture(new IllegalArgumentException("User ID cannot be null."));
                 }
