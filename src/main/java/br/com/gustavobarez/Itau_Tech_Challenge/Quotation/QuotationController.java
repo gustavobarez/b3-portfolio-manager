@@ -18,7 +18,7 @@ public class QuotationController {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("/lastQuotation")
     public ResponseEntity<ApiResponse<Quotation>> getLastQuotation(@RequestParam("id") Long assetId) {
         var lastQuotation = service.findLastQuotation(assetId);
         var response = new ApiResponse<>(lastQuotation.get(), "get-last-operation");

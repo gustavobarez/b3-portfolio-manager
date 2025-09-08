@@ -22,7 +22,7 @@ public class OperationController {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("/averagePrice")
     public ResponseEntity<ApiResponse<Map<Asset, BigDecimal>>> getAveragePrice(@RequestParam("id") Long userId) {
         var averagePrice = service.calculateAveragePrice(userId);
         var response = new ApiResponse<>(averagePrice, "get-average-price");
