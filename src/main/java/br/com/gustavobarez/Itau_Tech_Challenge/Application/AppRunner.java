@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import br.com.gustavobarez.Itau_Tech_Challenge.Asset.Asset;
@@ -16,6 +17,7 @@ import br.com.gustavobarez.Itau_Tech_Challenge.Position.GlobalPositionDTO;
 import br.com.gustavobarez.Itau_Tech_Challenge.Position.Position;
 
 @Component
+@ConditionalOnProperty(name = "app.cli.enabled", havingValue = "true", matchIfMissing = true)
 public class AppRunner implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(AppRunner.class);
