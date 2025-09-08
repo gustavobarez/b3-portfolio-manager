@@ -119,3 +119,9 @@ INSERT INTO positions (user_id, asset_id, quantity, average_price, profit_and_lo
 
 INSERT INTO positions (user_id, asset_id, quantity, average_price, profit_and_loss) VALUES
 (2, 104, 1000, 2.50, 150.00);
+
+INSERT INTO quotations (asset_id, unit_price, date_time, source) VALUES
+(101, 32.50, '2025-09-08 15:30:00', 'bloomberg'),
+(101, 32.75, '2025-09-08 15:35:00', 'reuters'),
+(102, 38.20, '2025-09-08 15:30:00', 'bloomberg'),
+(103, 85.90, '2025-09-08 15:30:00', 'yahoo');
