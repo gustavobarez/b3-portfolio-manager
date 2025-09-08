@@ -21,7 +21,7 @@ public class QuotationController {
         this.service = service;
     }
 
-    @GetMapping("/lastQuotation")
+    @GetMapping("/last-quotation")
     @Operation(summary = "Get last quotation", description = "Get the most recent quotation for an asset")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Last quotation retrieved successfully"),

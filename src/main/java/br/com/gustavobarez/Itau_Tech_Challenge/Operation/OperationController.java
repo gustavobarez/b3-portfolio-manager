@@ -26,7 +26,7 @@ public class OperationController {
         this.service = service;
     }
 
-    @GetMapping("/averagePrice")
+    @GetMapping("/average-price")
     @Operation(summary = "Get average price", description = "Calculate weighted average price by user and asset")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Average price calculated successfully"),
@@ -39,7 +39,7 @@ public class OperationController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/totalBrokerageFee")
+    @GetMapping("/total-brokerage-fee")
     @Operation(summary = "Get total brokerage fee", description = "Calculate total brokerage fee for all operations")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Total brokerage fee calculated successfully"),
@@ -51,7 +51,7 @@ public class OperationController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/topClientsByPosition")
+    @GetMapping("/clients-by-position")
     @Operation(summary = "Get top 10 clients by position", description = "Get top 10 clients with highest positions")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Top clients retrieved successfully"),
@@ -63,7 +63,7 @@ public class OperationController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/topClientsByBrokerage")
+    @GetMapping("/clients-by-brokerage")
     @Operation(summary = "Get top 10 clients by brokerage", description = "Get top 10 clients who paid most brokerage fees")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Top clients retrieved successfully"),
