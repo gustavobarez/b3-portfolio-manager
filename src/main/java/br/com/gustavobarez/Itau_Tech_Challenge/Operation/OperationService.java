@@ -126,4 +126,15 @@ public class OperationService {
                                     return totalValue.divide(BigDecimal.valueOf(totalQuantity), RoundingMode.HALF_UP);
                                 })));
     }
+
+    public BigDecimal calculateTotalBrokerageFee() {
+        List<Operation> operations = repository.findAll();
+
+        var totalBrokerageFee = operations.stream()
+        .map(op -> op.getBrokerageFee())
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+        
+        return totalBrokerageFee;
+    }
+
 }

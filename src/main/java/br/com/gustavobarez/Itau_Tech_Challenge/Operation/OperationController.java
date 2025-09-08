@@ -15,7 +15,7 @@ import br.com.gustavobarez.Itau_Tech_Challenge.common.ApiResponse;
 @RestController
 @RequestMapping("/api/v1/operation")
 public class OperationController {
-    
+
     OperationService service;
 
     public OperationController(OperationService service) {
@@ -26,6 +26,13 @@ public class OperationController {
     public ResponseEntity<ApiResponse<Map<Asset, BigDecimal>>> getAveragePrice(@RequestParam("id") Long userId) {
         var averagePrice = service.calculateAveragePrice(userId);
         var response = new ApiResponse<>(averagePrice, "get-average-price");
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/totalBrokerageFee")
+    public ResponseEntity<ApiResponse<BigDecimal>> getTotalBrokerageFee() {
+        var totalBrokerageFee = service.calculateTotalBrokerageFee();
+        var response = new ApiResponse<>(totalBrokerageFee, "get-total-brokerage-fee");
         return ResponseEntity.ok(response);
     }
 
